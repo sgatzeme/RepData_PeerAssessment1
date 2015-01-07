@@ -129,7 +129,7 @@ Remark - The interval variable has not been converted to time format, due to the
 
 ***
     
-    Make a time series plot (i.e.<span style="color:red">type = "l"</span>) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
+Make a time series plot (i.e.<span style="color:red">type = "l"</span>) of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis):
 ```{r line1, echo=TRUE, message=FALSE, warning=FALSE}
 aveSteps.1 <- aggregate(data.1$steps~data.1$interval, data.1, function(x) as.integer(mean(x, na.rm = TRUE)))
 colnames(aveSteps.1)[1] <- "interval"

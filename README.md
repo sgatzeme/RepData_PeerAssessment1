@@ -50,7 +50,7 @@ session <- sessInfo(clear=TRUE, loc=c("LC_TIME", "English"), log=TRUE)
 Set up current project directory
 
 ```r
-inputDir <- file.path(getwd(), "RepData_PeerAssessment1")
+inputDir <- getwd()
 ```
 
 Set up data directory
@@ -79,10 +79,6 @@ Download source file
 downloadFile(dataDir, dataset, url)
 ```
 
-```
-## Error in download.file(goTo, destfile = data): cannot open destfile 'C:/Users/desgatz1/Documents/03_Development/_Learning/Self_Learning/Data_Science_Specialzation/00_Administration/Working_Directory/RepData_PeerAssessment1/RepData_PeerAssessment1/data/repdata-data-activity.zip', reason 'No such file or directory'
-```
-
 Unzip source file
 
 ```r
@@ -97,20 +93,29 @@ data.1 <- read.csv(data.source, header = TRUE, sep = ",",
                    stringsAsFactors = FALSE, colClasses=c("integer","Date", "integer"))
 ```
 
-```
-## Error in file(file, "rt"): invalid 'description' argument
-```
-
 First rows of the dataset:
 
 ```
-## Error in head(data.1): object 'data.1' not found
+##   steps       date interval
+## 1    NA 2012-10-01        0
+## 2    NA 2012-10-01        5
+## 3    NA 2012-10-01       10
+## 4    NA 2012-10-01       15
+## 5    NA 2012-10-01       20
+## 6    NA 2012-10-01       25
 ```
 
 Summary Statistics of the dataset:
 
 ```
-## Error in summary(data.1): object 'data.1' not found
+##      steps             date               interval     
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0  
+##  1st Qu.:  0.00   1st Qu.:2012-10-16   1st Qu.: 588.8  
+##  Median :  0.00   Median :2012-10-31   Median :1177.5  
+##  Mean   : 37.38   Mean   :2012-10-31   Mean   :1177.5  
+##  3rd Qu.: 12.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2  
+##  Max.   :806.00   Max.   :2012-11-30   Max.   :2355.0  
+##  NA's   :2304
 ```
 
 __2. What is mean total number of steps taken per day?__
@@ -120,79 +125,36 @@ Make a histogram of the total number of steps taken each day. In order to derive
 
 ```r
 numSteps.1 <- aggregate(data.1$steps, list(data.1$date), sum)
-```
-
-```
-## Error in aggregate(data.1$steps, list(data.1$date), sum): object 'data.1' not found
-```
-
-```r
 colnames(numSteps.1)[1] <- "date"
-```
-
-```
-## Error in colnames(numSteps.1)[1] <- "date": object 'numSteps.1' not found
-```
-
-```r
 colnames(numSteps.1)[2] <- "total_daily_steps"
-```
-
-```
-## Error in colnames(numSteps.1)[2] <- "total_daily_steps": object 'numSteps.1' not found
-```
-
-```r
 hist.1 <- ggplot(numSteps.1, aes(x=numSteps.1$total_daily_steps)) +
     geom_histogram(fill="white", colour = "black") + 
     xlab("Steps (total number per day)") + 
     scale_y_continuous("Frequency (total number of days)", breaks = c(1:10))
-```
 
-```
-## Error in ggplot(numSteps.1, aes(x = numSteps.1$total_daily_steps)): object 'numSteps.1' not found
-```
-
-```r
 print(hist.1)
 ```
 
-```
-## Error in print(hist.1): object 'hist.1' not found
-```
+![plot of chunk hist1](figure/hist1-1.png) 
 
 Calculate and report the mean and median total number of steps taken per day. The numbers are rounded off to a whole number:
 
 ```r
 meanSteps.1 <- as.integer(mean(numSteps.1$total_daily_steps, na.rm = TRUE))
-```
-
-```
-## Error in mean(numSteps.1$total_daily_steps, na.rm = TRUE): object 'numSteps.1' not found
-```
-
-```r
 print(meanSteps.1)
 ```
 
 ```
-## Error in print(meanSteps.1): object 'meanSteps.1' not found
+## [1] 10766
 ```
 
 ```r
 medianSteps.1 <- as.integer(median(numSteps.1$total_daily_steps, na.rm = TRUE))
-```
-
-```
-## Error in median(numSteps.1$total_daily_steps, na.rm = TRUE): object 'numSteps.1' not found
-```
-
-```r
 print(medianSteps.1)
 ```
 
 ```
-## Error in print(medianSteps.1): object 'medianSteps.1' not found
+## [1] 10765
 ```
 
 __3. What is the average daily activity pattern?__
@@ -210,64 +172,29 @@ Make a time series plot (i.e.<span style="color:red">type = "l"</span>) of the 5
 
 ```r
 aveSteps.1 <- aggregate(data.1$steps~data.1$interval, data.1, function(x) as.integer(mean(x, na.rm = TRUE)))
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'data.1' not found
-```
-
-```r
 colnames(aveSteps.1)[1] <- "interval"
-```
-
-```
-## Error in colnames(aveSteps.1)[1] <- "interval": object 'aveSteps.1' not found
-```
-
-```r
 colnames(aveSteps.1)[2] <- "average_steps"
-```
-
-```
-## Error in colnames(aveSteps.1)[2] <- "average_steps": object 'aveSteps.1' not found
-```
-
-```r
 line.1 <- ggplot(aveSteps.1, aes(x=aveSteps.1$interval, y=aveSteps.1$average_steps)) +
     geom_line(colour = "black") + 
     xlab("5 Minute Intervals") + 
     ylab("Average Steps")
-```
 
-```
-## Error in ggplot(aveSteps.1, aes(x = aveSteps.1$interval, y = aveSteps.1$average_steps)): object 'aveSteps.1' not found
-```
-
-```r
 print(line.1) 
 ```
 
-```
-## Error in print(line.1): object 'line.1' not found
-```
+![plot of chunk line1](figure/line1-1.png) 
 
 Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 ```r
 maxSteps <- subset(aveSteps.1, aveSteps.1$average_steps == max(aveSteps.1$average_steps),
                    Select=aveSteps.1$interval)
-```
-
-```
-## Error in subset(aveSteps.1, aveSteps.1$average_steps == max(aveSteps.1$average_steps), : object 'aveSteps.1' not found
-```
-
-```r
 print(maxSteps)
 ```
 
 ```
-## Error in print(maxSteps): object 'maxSteps' not found
+##     interval average_steps
+## 104      835           206
 ```
 
 __4. Imputing missing values__
@@ -276,153 +203,84 @@ Calculate and report the total number of missing values in the dataset (i.e. the
 
 ```r
 imputeNa <- data.1[!complete.cases(data.1),]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'data.1' not found
-```
-
-```r
 missingVal <- nrow(imputeNa)
-```
-
-```
-## Error in nrow(imputeNa): object 'imputeNa' not found
-```
-
-```r
 print(missingVal)
 ```
 
 ```
-## Error in print(missingVal): object 'missingVal' not found
+## [1] 2304
 ```
 
 Devise a strategy for filling in all of the missing values in the dataset. Create a new dataset that is equal to the original dataset but with the missing data filled in. I have replaced the missing values with the average steps per time interval across all days (see 3.):
 
 ```r
 imputeNa <- merge(aveSteps.1, imputeNa, by="interval", all=FALSE, sort=FALSE)
-```
-
-```
-## Error in merge(aveSteps.1, imputeNa, by = "interval", all = FALSE, sort = FALSE): object 'aveSteps.1' not found
-```
-
-```r
 imputeNa <- imputeNa[,c("average_steps","date","interval")]
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'imputeNa' not found
-```
-
-```r
 colnames(imputeNa)[1] <- "steps"
-```
 
-```
-## Error in colnames(imputeNa)[1] <- "steps": object 'imputeNa' not found
-```
-
-```r
 data.2 <- data.frame(
     steps=ifelse(data.1$interval %in% imputeNa$interval, imputeNa$steps, data.1$steps),
     date=data.1$date,
     interval=data.1$interval)
 ```
 
-```
-## Error in match(x, table, nomatch = 0L): object 'data.1' not found
-```
-
 First rows of the dataset:
 
 ```
-## Error in head(data.2): object 'data.2' not found
+##   steps       date interval
+## 1     1 2012-10-01        0
+## 2     1 2012-10-01        5
+## 3     1 2012-10-01       10
+## 4     1 2012-10-01       15
+## 5     1 2012-10-01       20
+## 6     1 2012-10-01       25
 ```
 
 Summary Statistics of the dataset:
 
 ```
-## Error in summary(data.2): object 'data.2' not found
+##      steps             date               interval     
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0  
+##  1st Qu.:  2.00   1st Qu.:2012-10-16   1st Qu.: 588.8  
+##  Median : 33.50   Median :2012-10-31   Median :1177.5  
+##  Mean   : 36.97   Mean   :2012-10-31   Mean   :1177.5  
+##  3rd Qu.: 52.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2  
+##  Max.   :206.00   Max.   :2012-11-30   Max.   :2355.0
 ```
 
 Make a histogram of the total number of steps taken each day and Calculate and report the mean and median total number of steps taken per day:
 
 ```r
 numSteps.2 <- aggregate(data.2$steps, list(data.2$date), sum)
-```
-
-```
-## Error in aggregate(data.2$steps, list(data.2$date), sum): object 'data.2' not found
-```
-
-```r
 colnames(numSteps.2)[1] <- "date"
-```
-
-```
-## Error in colnames(numSteps.2)[1] <- "date": object 'numSteps.2' not found
-```
-
-```r
 colnames(numSteps.2)[2] <- "total_daily_steps"
-```
-
-```
-## Error in colnames(numSteps.2)[2] <- "total_daily_steps": object 'numSteps.2' not found
-```
-
-```r
 hist.2 <- ggplot(numSteps.2, aes(x=numSteps.2$total_daily_steps)) +
     geom_histogram(fill="white", colour = "black") + 
     xlab("Steps (total number per day)") + 
     scale_y_continuous("Frequency (total number of days)", breaks = c(1:10))
-```
 
-```
-## Error in ggplot(numSteps.2, aes(x = numSteps.2$total_daily_steps)): object 'numSteps.2' not found
-```
-
-```r
 print(hist.2)
 ```
 
-```
-## Error in print(hist.2): object 'hist.2' not found
-```
+![plot of chunk hist2](figure/hist2-1.png) 
 
 
 ```r
 meanSteps.2 <- as.integer(mean(numSteps.2$total_daily_steps, na.rm = TRUE))
-```
-
-```
-## Error in mean(numSteps.2$total_daily_steps, na.rm = TRUE): object 'numSteps.2' not found
-```
-
-```r
 print(meanSteps.2)
 ```
 
 ```
-## Error in print(meanSteps.2): object 'meanSteps.2' not found
+## [1] 10647
 ```
 
 ```r
 medianSteps.2 <- as.integer(median(numSteps.2$total_daily_steps, na.rm = TRUE))
-```
-
-```
-## Error in median(numSteps.2$total_daily_steps, na.rm = TRUE): object 'numSteps.2' not found
-```
-
-```r
 print(medianSteps.2)
 ```
 
 ```
-## Error in print(medianSteps.2): object 'medianSteps.2' not found
+## [1] 13664
 ```
 Do these values differ from the estimates from the first part of the assignment? Yes, the values differ from the first part of the assignment (see 2.)
 
@@ -436,76 +294,48 @@ Create a new factor variable in the dataset with two levels - "weekday" and "wee
 data.2$day_trigger <- as.factor(ifelse(weekdays(data.2$date) %in% c("Sunday", "Saturday"),"weekend","weekday"))
 ```
 
-```
-## Error in weekdays(data.2$date): object 'data.2' not found
-```
-
 Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
 
 
 ```r
 aveSteps.2 <- aggregate(data.2$steps~data.2$day_trigger+data.2$interval,data.2,mean)
-```
-
-```
-## Error in eval(expr, envir, enclos): object 'data.2' not found
-```
-
-```r
 colnames(aveSteps.2)[1] <- "day_trigger"
-```
-
-```
-## Error in colnames(aveSteps.2)[1] <- "day_trigger": object 'aveSteps.2' not found
-```
-
-```r
 colnames(aveSteps.2)[2] <- "interval"
-```
-
-```
-## Error in colnames(aveSteps.2)[2] <- "interval": object 'aveSteps.2' not found
-```
-
-```r
 colnames(aveSteps.2)[3] <- "average_steps"
-```
-
-```
-## Error in colnames(aveSteps.2)[3] <- "average_steps": object 'aveSteps.2' not found
-```
-
-```r
 line.2 <- ggplot(aveSteps.2, aes(x=interval, y=average_steps)) +
     geom_line(colour = "blue", size = 1) +
     labs(title = "Average number of steps per 5 minute interval\n", x = "\n5 minute intervals", y = "Average steps\n") +
     theme(axis.title=element_text(size=12)) + 
     theme(plot.title = element_text(size = 12, face = "bold")) +
     facet_grid(day_trigger ~ .)
-```
 
-```
-## Error in ggplot(aveSteps.2, aes(x = interval, y = average_steps)): object 'aveSteps.2' not found
-```
-
-```r
 print(line.2)
 ```
 
-```
-## Error in print(line.2): object 'line.2' not found
-```
+![plot of chunk line2](figure/line2-1.png) 
 
 First rows of the dataset:
 
 ```
-## Error in head(data.2): object 'data.2' not found
+##   steps       date interval day_trigger
+## 1     1 2012-10-01        0     weekday
+## 2     1 2012-10-01        5     weekday
+## 3     1 2012-10-01       10     weekday
+## 4     1 2012-10-01       15     weekday
+## 5     1 2012-10-01       20     weekday
+## 6     1 2012-10-01       25     weekday
 ```
 
 Summary Statistics of the dataset:
 
 ```
-## Error in summary(data.2): object 'data.2' not found
+##      steps             date               interval       day_trigger   
+##  Min.   :  0.00   Min.   :2012-10-01   Min.   :   0.0   weekday:12960  
+##  1st Qu.:  2.00   1st Qu.:2012-10-16   1st Qu.: 588.8   weekend: 4608  
+##  Median : 33.50   Median :2012-10-31   Median :1177.5                  
+##  Mean   : 36.97   Mean   :2012-10-31   Mean   :1177.5                  
+##  3rd Qu.: 52.00   3rd Qu.:2012-11-15   3rd Qu.:1766.2                  
+##  Max.   :206.00   Max.   :2012-11-30   Max.   :2355.0
 ```
 
 Finally, set locale back to original
